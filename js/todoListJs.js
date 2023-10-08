@@ -72,7 +72,9 @@ document.getElementById('toggle-all').addEventListener('click', (e) => {
         console.log('không cho cập nhật ');
         return false;
     }
-
+    let dataFilter = checkRoute(data)
+    isToggleAll = dataFilter.every(element => element.status === true)
+    
     for (let index = 0; index < list.length; index++) {
         const element = list[index];
         if (!isToggleAll) {
@@ -119,10 +121,9 @@ document.querySelector('.todo-list').addEventListener('keyup', (e) => {
         }
     }
 });
-document.querySelector('.todo-list').addEventListener("blur", (event) => {
-    console.log(event.target);
-});
-
+function cancleEdit(e){
+    console.log(e.parentElement.classList.remove('editing'));
+}
 
 document.querySelector('.todo-list').addEventListener('keyup', (e) => {
     if (e.target.classList.contains('edit')) {
@@ -173,7 +174,7 @@ function render(dataApend, isApend = false) {
                 <label>`+ dataApend.value + `</label>
                 <button class="destroy" onclick="destroy(this,'`+ dataApend.id + `')" ></button>
             </div>
-            <input class="edit" value=""  >
+            <input class="edit" value="" onblur="cancleEdit(this)" >
         </li>
         `
         getTodo.appendChild(li);
@@ -191,7 +192,7 @@ function render(dataApend, isApend = false) {
                 <label>`+ value.value + `</label>
                 <button class="destroy" onclick="destroy(this,'`+ value.id + `')" ></button>
             </div>
-            <input class="edit" value="" >
+            <input class="edit" value="" onblur="cancleEdit(this)"  >
         </li>
         `;
     }

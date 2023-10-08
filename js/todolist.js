@@ -55,7 +55,8 @@ $('#toggle-all').on('click', (e) => {
         console.log('không cho cập nhật ');
         return false;
     }
-    
+    let dataFilter = checkRoute(data)
+    isToggleAll = dataFilter.every(element => element.status === true)
     for (let index = 0; index < list.length; index++) {
         const element = list[index];
         if (!isToggleAll) {
@@ -130,12 +131,7 @@ function update(e) {
         return false;
     }
     parent.find('label').text(input);
-    data = data.map(obj => {
-        if (obj.id === id) {
-            return { ...obj, value: value };
-        }
-        return obj;
-    });
+    data = data.map(obj => (obj.id === id) ? { ...obj, value: input } : obj);
     store(nameStore, data);
 }
 
